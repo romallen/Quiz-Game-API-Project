@@ -9,3 +9,20 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Category {
+  category_id    String     @id @db.Uuid
+  category  String    @db.VarChar(100) @unique
+  isValidCategory Boolean   @default(false)
+  questions Question[] 
+}
+
+model Question {
+  question_id  String     @id @db.Uuid
+  question  String @db.VarChar(255) @unique 
+  answer  String
+  points  Int
+  difficulty  Int
+  category  Category  @relation(fields: [categoryID], references: [category_id])
+  categoryID   String @db.Uuid
+}
