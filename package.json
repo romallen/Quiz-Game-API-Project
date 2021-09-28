@@ -1,0 +1,27 @@
+{
+  "name": "api-solo-project",
+  "version": "1.0.0",
+  "description": "A CRUD API service for a quiz game using Express, Node JS, Prisma &amp; Postgres",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/romallen/api-solo-project.git"
+  },
+  "author": "Romaine Allen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/romallen/api-solo-project/issues"
+  },
+  "homepage": "https://github.com/romallen/api-solo-project#readme"
+}
