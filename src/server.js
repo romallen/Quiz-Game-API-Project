@@ -1,14 +1,26 @@
 const express = require("express");
+const { PrismaClient } = require('@prisma/client')
+
+
+
+
+
+
 
 const setupExpressServer = () => {
   const app = express();
   app.use(express.json());
 
-//   app.get("/", (req, res) => {
-//     res.send("ITS ALIVE!!!")
-//   });
+  app.get("/", (req, res) => {
+    res.send("ITS ALIVE!!!")
+  });
 
+  app.get("/test", (req, res) => {
+    // const categories = await prisma.post.findMany({
 
+    // })
+    res.send("ITS ALIVE!!!")
+  });
     /*
     CREATE
     */
@@ -57,6 +69,39 @@ const setupExpressServer = () => {
     app.delete("/question", (req, res) => {
 
     });
+
+
+
+
+    const prisma = new PrismaClient()
+    let result;
+    async function main() {
+    //   const newQuest = await prisma.category.create({
+    //       data: {
+    //           category_id: "edewdwdw",
+    //           category: "TESTING",
+    //           isValidCategory: true,
+    //           questions: {
+    //               create: {
+    //                 question_id: "wrf",
+    //                 question: "is this a test?",
+    //                 answer: "yes",
+    //                 points: 100,
+    //                 difficulty: 1,
+    //               },
+    //           },
+    //       },
+    //   })
+    // console.log("Created: ", newQuest);
+    }
+    
+    main()
+      .catch((e) => {
+        throw e
+      })
+      .finally(async () => {
+        await prisma.$disconnect()
+      })
 
 
   return app;

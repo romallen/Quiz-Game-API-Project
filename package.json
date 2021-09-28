@@ -16,6 +16,10 @@
     "dev": "nodemon ./src/index.js",
     "test": ""
   },
+  "type": "module",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/romallen/api-solo-project.git"
