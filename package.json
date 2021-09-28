@@ -4,6 +4,7 @@
   "description": "A CRUD API service for a quiz game using Express, Node JS, Prisma &amp; Postgres",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^3.1.1",
     "express": "^4.17.1"
   },
   "devDependencies": {
