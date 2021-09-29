@@ -10,19 +10,20 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Category {
-  category_id    String     @id @db.Uuid
-  category  String    @db.VarChar(100) @unique
-  isValidCategory Boolean   @default(false)
-  questions Question[] 
-}
+// model category {
+//   category_id    String     @id @db.Uuid @default(autoincrement())
+//   category  String    @db.VarChar(100) @unique
+//   isValidCategory Boolean   @default(false)
+//   questions String 
+// }
 
 model Question {
-  question_id  String     @id @db.Uuid
+  question_id  String    @id @db.Uuid 
   question  String @db.VarChar(255) @unique 
-  answer  String
+  answer  String @db.VarChar(255)
+  category  String    @db.VarChar(100) 
   points  Int
   difficulty  Int
-  category  Category  @relation(fields: [categoryID], references: [category_id])
-  categoryID   String @db.Uuid
+  //category  Category  @relation(fields: [categoryID], references: [category_id])
+  //categoryID   String @db.Uuid
 }

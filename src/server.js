@@ -1,26 +1,84 @@
-const express = require("express");
-const { PrismaClient } = require('@prisma/client')
+const express = require("express")
+const {PrismaClient} = require('@prisma/client')
+const categories = require("../prisma/seedData")
+const { 
+    v1: uuidv1,
+    v4: uuidv4,
+  } = require('uuid');
 
 
+    const prisma = new PrismaClient()
+
+    async function main() {
+        console.log("CREATING...") 
+
+    await prisma.question.create({
+        data:  {
+            question_id: uuidv4(),
+            question: "is test5000?",
+                    answer: "yeks",
+                    category: "TINkG2",
+                    points: 10,
+                    difficulty: 11,
+        }
+      })
+    //await prisma.question.deleteMany({})
+    console.log("Created: ");            
+}   
+async function main2() {
+    console.log("CREATING...") 
+for(let elem of categories.categories){
+    await prisma.question.create({
+        data:  elem
+      })
+}
 
 
+           
+}  
+      
 
 
 
 const setupExpressServer = () => {
   const app = express();
-  app.use(express.json());
+  //app.use(json());
 
   app.get("/", (req, res) => {
     res.send("ITS ALIVE!!!")
   });
 
-  app.get("/test", (req, res) => {
-    // const categories = await prisma.post.findMany({
+  app.get("/test", async (req, res) => {
+     const categories = await prisma.question.findMany({
 
-    // })
-    res.send("ITS ALIVE!!!")
+     })
+     
+    main().catch((e) => {
+        throw e
+      })
+      .finally(async () => {
+        console.log("DISCONNECTING...")
+        await prisma.$disconnect()
+      })
+    res.send(categories)
+    prisma.$disconnect()
   });
+
+  
+
+  app.get("/seed", async (req, res) => {
+      
+      main2().catch((e) => {
+          throw e
+        })
+        .finally(async () => {
+            console.log("DISCONNECTING...")
+            await prisma.$disconnect()
+        })
+        const categories = await prisma.question.findMany({})
+   res.status(200).send(categories)
+   
+ });
     /*
     CREATE
     */
@@ -73,38 +131,9 @@ const setupExpressServer = () => {
 
 
 
-    const prisma = new PrismaClient()
-    let result;
-    async function main() {
-    //   const newQuest = await prisma.category.create({
-    //       data: {
-    //           category_id: "edewdwdw",
-    //           category: "TESTING",
-    //           isValidCategory: true,
-    //           questions: {
-    //               create: {
-    //                 question_id: "wrf",
-    //                 question: "is this a test?",
-    //                 answer: "yes",
-    //                 points: 100,
-    //                 difficulty: 1,
-    //               },
-    //           },
-    //       },
-    //   })
-    // console.log("Created: ", newQuest);
-    }
-    
-    main()
-      .catch((e) => {
-        throw e
-      })
-      .finally(async () => {
-        await prisma.$disconnect()
-      })
 
 
   return app;
 };
-
-module.exports = { setupExpressServer };
+module.exports = setupExpressServer;
+//export default  setupExpressServer ;
