@@ -9,33 +9,27 @@ const {
 
     const prisma = new PrismaClient()
 
-    async function main() {
-        console.log("CREATING...") 
-
-    await prisma.question.create({
-        data:  {
-            question_id: uuidv4(),
-            question: "is test5000?",
-                    answer: "yeks",
-                    category: "TINkG2",
-                    points: 10,
-                    difficulty: 11,
-        }
-      })
-    //await prisma.question.deleteMany({})
-    console.log("Created: ");            
-}   
-async function main2() {
+  async function createSingle(question) {
     console.log("CREATING...") 
-for(let elem of questions){
+    question.question_id = uuidv4();
     await prisma.question.create({
+        data:  question
+      });
+ 
+    console.log("Created");            
+  }  
+
+  async function createMultiple(questions) {
+    console.log("CREATING...") 
+    for(let elem of questions){
+      elem.question_id = uuidv4();
+      await prisma.question.create({
         data:  elem
       })
-}
+    } 
+    console.log("Created");            
+  }  
 
-
-           
-}  
       
 
 
@@ -44,47 +38,48 @@ const setupExpressServer = () => {
   const app = express();
   //app.use(json());
 
-  app.get("/", (req, res) => {
+  app.get("/test", (req, res) => {
     res.send("ITS ALIVE!!!")
   });
 
-  app.get("/test", async (req, res) => {
-     const categories = await prisma.question.findMany({
-
-     })
-     
-    main().catch((e) => {
-        throw e
-      })
-      .finally(async () => {
-        console.log("DISCONNECTING...")
-        await prisma.$disconnect()
-      })
-    res.send(categories)
-    prisma.$disconnect()
-  });
 
   
-
-  app.get("/seed", async (req, res) => {
+//   app.get("/seed", async (req, res) => {
       
-      main2().catch((e) => {
-          throw e
-        })
-        .finally(async () => {
-            console.log("DISCONNECTING...")
-            await prisma.$disconnect()
-        })
-        const categories = await prisma.question.findMany({})
-   res.status(200).send(categories)
+//       main2().catch((e) => {
+//           throw e
+//         })
+//         .finally(async () => {
+//             console.log("DISCONNECTING...")
+//             await prisma.$disconnect()
+//         })
+//         const categories = await prisma.question.findMany({})
+//    res.status(200).send(categories)
    
- });
+//  });
+
+
     /*
     CREATE
     */
-    app.post("/question/", (req, res) => {
-        res.sendStatus(200);
+    app.post("/question/", async (req, res) => {
+        const newQuestion = await prisma.question.create({
+          data: req.body,
+        })
+       
+
+      res.sendStatus(200).send(newQuestion);
     });
+
+    app.post("/questions/", async (req, res) => {
+      const newQuestions = await prisma.question.createMany({
+        data: req.body,
+        skipDuplicates: true,
+      })
+     
+
+    res.sendStatus(200).send(newQuestions);
+  });
 
 
      /*

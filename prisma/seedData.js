@@ -251,8 +251,8 @@ const questions = [
       {
           question_id: uuidv4(),
           question: "It is usually made of meat in between two buns. You can buy it at McDonald's.",
-          answer: "food",
-          category: "Hamburger",
+          answer: "Hamburger",
+          category: "food",
           points: 500,
           difficulty: 1,                     
       },

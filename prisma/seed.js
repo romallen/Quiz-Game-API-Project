@@ -1,25 +1,21 @@
-//import  categories  from "./seedData";
-const categories = require("./seedData")
-//import  { PrismaClient } from "@prisma/client";
+const {categories, questions} = require("./seedData")
+
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
 
-const data = categories.categories;
 
 
-console.log(data)
 async function main() {
-    console.log("CREATING...") 
-  
-    prisma.question.create({
-        data: data
+  console.log("CREATING...") 
+  for(let elem of questions){
+    await prisma.question.create({
+      data:  elem
     })
-    console.log( await prisma.question.findMany())
-   
-    }
-   await main()
+  }          
+}  
+  main()
       .catch((e) => {
        throw e
       })
