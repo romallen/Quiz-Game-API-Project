@@ -44,8 +44,7 @@ const setupExpressServer = () => {
     /*
     CREATE
     */
-    app.post("/question/", async (req, res) => {
-      console.log(req.body)  
+    app.post("/question/", async (req, res) => { 
       
       const newQuestion = await prisma.question.create({
           data: req.body,
@@ -55,64 +54,69 @@ const setupExpressServer = () => {
     });
 
     app.post("/questions/", async (req, res) => {
-   
+ 
         const newQuestions = await prisma.question.createMany({
           data: req.body,
           skipDuplicates: true,
         })
-      
-      
-     
+
       res.status(200).send(newQuestions);
     });
 
 
      /*
-    REQUEST
+    READ
     */
    app.get("/question/", async (req, res) => {
      
      const result = await prisma.question.findFirst({
        where: req.body,
      })
-     res.send(result)
+     res.status(200).send(result)
    });
     
    app.get("/questions/", async (req, res) => {
       const result = await prisma.question.findMany({
         where: req.body,
       })
-      res.send(result)
+      res.status(200).send(result)
     });
 
-
-   
  
     /*
     UPDATE
     */
     app.patch("/question/", async (req, res) => {
+      
       const questionID = await prisma.question.findFirst({
-        where: {
-          category : "food",
-          points: 200,
-        },
+        where: req.body[0],
       });
  
       const updateQuestion =  await prisma.question.update({
         where: {
           question_id: questionID.question_id, 
         },
-        data: {
-          points: 2000,
-        },
+        data: req.body[1],
       });
 
-      res.sendStatus(200)
+      res.status(200).send(updateQuestion)
     });
 
     app.patch("/questions/", async (req, res) => {
+      console.log(typeof Object.keys(req.body[0])[0])
+      let key = Object.keys(req.body[0])[0]
+      let value = Object.values(req.body[0])[0]
 
+      const updateQuestion =  await prisma.question.updateMany({
+        where: {
+         
+
+       
+        },
+        data: req.body[1],
+      });
+
+      res.status(200).send(updateQuestion)
     });
  
 
@@ -121,23 +125,21 @@ const setupExpressServer = () => {
     */
     app.delete("/question", async (req, res) => {
       const questionID = await prisma.question.findFirst({
-        where: {
-          category : "food",
-          points: 100,
-        },
+        where: req.body,
       });
       
-      await prisma.question.deleteMany({
+     const deleteQuestion = await prisma.question.delete({
         where: {question_id: questionID.question_id},
       })
-res.sendStatus(200)
+        res.status(200).send(deleteQuestion)
 
     });
 
     app.delete("/questions", async (req, res) => {
-      await prisma.question.deleteMany({
+      const deleteQuestion = await prisma.question.deleteMany({
         where: req.body,
       })
+      res.status(200).send(deleteQuestion)
     });
 
 
