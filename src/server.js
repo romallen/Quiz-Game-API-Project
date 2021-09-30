@@ -1,6 +1,6 @@
 const express = require("express")
 const {PrismaClient} = require('@prisma/client')
-const categories = require("../prisma/seedData")
+const {categories, questions} = require("../prisma/seedData")
 const { 
     v1: uuidv1,
     v4: uuidv4,
@@ -27,7 +27,7 @@ const {
 }   
 async function main2() {
     console.log("CREATING...") 
-for(let elem of categories.categories){
+for(let elem of questions){
     await prisma.question.create({
         data:  elem
       })
@@ -120,8 +120,8 @@ const setupExpressServer = () => {
      /*
     DELETE
     */
-    app.delete("/category", (req, res) => {
-
+    app.get("/deleteAll", async (req, res) => {
+      await prisma.question.deleteMany({})
     });
 
     app.delete("/question", (req, res) => {
