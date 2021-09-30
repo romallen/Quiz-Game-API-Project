@@ -1,4 +1,4 @@
-const {categories, questions} = require("./seedData")
+const {categories, questions, questionSeeds} = require("./seedData")
 
 const { PrismaClient } = require('@prisma/client');
 

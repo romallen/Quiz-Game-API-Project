@@ -18,7 +18,7 @@ generator client {
 // }
 
 model Question {
-  question_id  String    @id @db.Uuid 
+  question_id  String    @id @default(uuid())
   question  String @db.VarChar(255) @unique 
   answer  String @db.VarChar(255)
   category  String    @db.VarChar(100) 
