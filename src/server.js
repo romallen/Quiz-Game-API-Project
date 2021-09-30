@@ -36,14 +36,107 @@ const {
 
 const setupExpressServer = () => {
   const app = express();
-  //app.use(json());
+  app.use(express.json());
 
-  app.get("/test", (req, res) => {
-    res.send("ITS ALIVE!!!")
-  });
+    app.get("/test", (req, res) => {
+      res.send("ITS ALIVE!!!")
+    });
+
+ 
+   
+    /*
+    CREATE
+    */
+    app.post("/question/", async (req, res) => {
+        const newQuestion = await prisma.question.create({
+          data: req.body,
+        })
+      
+      res.sendStatus(200).send(newQuestion);
+    });
+
+    app.post("/questions/", async (req, res) => {
+      const newQuestions = await prisma.question.createMany({
+        data: req.body,
+        skipDuplicates: true,
+      })
+     
+      res.sendStatus(200).send(newQuestions);
+    });
 
 
-  
+     /*
+    REQUEST
+    */
+   app.get("/question/", async (req, res) => {
+     
+     const result = await prisma.question.findFirst({
+       where: req.body,
+     })
+     res.send(result)
+   });
+    
+   app.get("/questions/", async (req, res) => {
+      const result = await prisma.question.findMany({
+        where: req.body,
+      })
+      res.send(result)
+    });
+
+
+   
+ 
+    /*
+    UPDATE
+    */
+    app.patch("/question/", async (req, res) => {
+      const questionID = await prisma.question.findFirst({
+        where: {
+          category : "food",
+          points: 200,
+        },
+      });
+ 
+      const updateQuestion =  await prisma.question.update({
+        where: {
+          question_id: questionID.question_id, 
+        },
+        data: {
+          points: 2000,
+        },
+      });
+
+      res.sendStatus(200)
+    });
+
+    app.patch("/questions/", async (req, res) => {
+
+    });
+ 
+
+     /*
+    DELETE
+    */
+    app.delete("/question", async (req, res) => {
+      await prisma.question.deleteMany({
+        where: req.body,
+      })
+    });
+
+    app.delete("/questions", async (req, res) => {
+      await prisma.question.deleteMany({
+        where: req.body,
+      })
+    });
+
+
+  return app;
+};
+module.exports = setupExpressServer;
+//export default  setupExpressServer ;
+
+
+
 //   app.get("/seed", async (req, res) => {
       
 //       main2().catch((e) => {
@@ -57,78 +150,3 @@ const setupExpressServer = () => {
 //    res.status(200).send(categories)
    
 //  });
-
-
-    /*
-    CREATE
-    */
-    app.post("/question/", async (req, res) => {
-        const newQuestion = await prisma.question.create({
-          data: req.body,
-        })
-       
-
-      res.sendStatus(200).send(newQuestion);
-    });
-
-    app.post("/questions/", async (req, res) => {
-      const newQuestions = await prisma.question.createMany({
-        data: req.body,
-        skipDuplicates: true,
-      })
-     
-
-    res.sendStatus(200).send(newQuestions);
-  });
-
-
-     /*
-    REQUEST
-    */
-    app.get("/category/", (req, res) => {
-        res.send("ITS ALIVE!!!")
-    });
-    app.get("/categories/", (req, res) => {
-        res.send("ITS ALIVE!!!")
-    });
-    app.get("/question", (req, res) => {
-        res.send("ITS ALIVE!!!")
-    });
-    app.get("/questions/", (req, res) => {
-        res.send("ITS ALIVE!!!")
-    });
-
-
-
-    /*
-    UPDATE
-    */
-    app.patch("/category/", (req, res) => {
-
-    });
-
-    app.patch("/question/", (req, res) => {
-
-    });
-
-
-     /*
-    DELETE
-    */
-    app.get("/deleteAll", async (req, res) => {
-      await prisma.question.deleteMany({})
-    });
-
-    app.delete("/question", (req, res) => {
-
-    });
-
-
-
-
-
-
-  return app;
-};
-module.exports = setupExpressServer;
-//export default  setupExpressServer ;
