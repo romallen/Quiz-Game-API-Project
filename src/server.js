@@ -142,6 +142,19 @@ const setupExpressServer = () => {
       res.status(200).send(deleteQuestion)
     });
 
+      app.get("/seed", async (req, res) => {
+          
+          main2().catch((e) => {
+              throw e
+            })
+            .finally(async () => {
+                console.log("DISCONNECTING...")
+                await prisma.$disconnect()
+            })
+            const categories = await prisma.question.findMany({})
+       res.status(200).send(categories)
+       
+     });
 
   return app;
 };
@@ -149,17 +162,3 @@ module.exports = setupExpressServer;
 //export default  setupExpressServer ;
 
 
-
-//   app.get("/seed", async (req, res) => {
-      
-//       main2().catch((e) => {
-//           throw e
-//         })
-//         .finally(async () => {
-//             console.log("DISCONNECTING...")
-//             await prisma.$disconnect()
-//         })
-//         const categories = await prisma.question.findMany({})
-//    res.status(200).send(categories)
-   
-//  });
