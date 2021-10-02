@@ -142,7 +142,7 @@ const setupExpressServer = () => {
       res.status(200).send(deleteQuestion)
     });
 
-      app.post("/seed", async (req, res) => {
+      app.post("/api/seed", async (req, res) => {
           
         const newQuestions = await prisma.question.createMany({
           data: questionSeeds,
