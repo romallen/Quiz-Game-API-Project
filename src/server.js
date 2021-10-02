@@ -1,6 +1,6 @@
 const express = require("express")
 const {PrismaClient} = require('@prisma/client')
-const {categories, questions} = require("../prisma/seedData")
+const {categories, questionSeed, questionSeeds} = require("../prisma/seedData")
 
 
 
@@ -144,15 +144,12 @@ const setupExpressServer = () => {
 
       app.get("/seed", async (req, res) => {
           
-          main2().catch((e) => {
-              throw e
-            })
-            .finally(async () => {
-                console.log("DISCONNECTING...")
-                await prisma.$disconnect()
-            })
-            const categories = await prisma.question.findMany({})
-       res.status(200).send(categories)
+        const newQuestions = await prisma.question.createMany({
+          data: questionSeeds,
+          skipDuplicates: true,
+        })
+
+      res.status(200).send(newQuestions);
        
      });
 
@@ -162,3 +159,16 @@ module.exports = setupExpressServer;
 //export default  setupExpressServer ;
 
 
+// app.get("/seed", async (req, res) => {
+          
+//   main2().catch((e) => {
+//       throw e
+//     })
+//     .finally(async () => {
+//         console.log("DISCONNECTING...")
+//         await prisma.$disconnect()
+//     })
+//     const categories = await prisma.question.findMany({})
+// res.status(200).send(categories)
+
+// });
