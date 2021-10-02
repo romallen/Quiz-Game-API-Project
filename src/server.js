@@ -35,7 +35,7 @@ const setupExpressServer = () => {
   const app = express();
   app.use(express.json());
 
-    app.get("/test", (req, res) => {
+    app.get("/api/test", (req, res) => {
       res.send("ITS ALIVE!!!")
     });
 
@@ -44,7 +44,7 @@ const setupExpressServer = () => {
     /*
     CREATE
     */
-    app.post("/question/", async (req, res) => { 
+    app.post("/api/question", async (req, res) => { 
       
       const newQuestion = await prisma.question.create({
           data: req.body,
@@ -53,7 +53,7 @@ const setupExpressServer = () => {
       res.status(200).send(newQuestion);
     });
 
-    app.post("/questions/", async (req, res) => {
+    app.post("/api/questions", async (req, res) => {
  
         const newQuestions = await prisma.question.createMany({
           data: req.body,
@@ -67,7 +67,7 @@ const setupExpressServer = () => {
      /*
     READ
     */
-   app.get("/question/", async (req, res) => {
+   app.get("/api/question", async (req, res) => {
      
      const result = await prisma.question.findFirst({
        where: req.body,
@@ -75,7 +75,7 @@ const setupExpressServer = () => {
      res.status(200).send(result)
    });
     
-   app.get("/questions/", async (req, res) => {
+   app.get("/api/questions", async (req, res) => {
       const result = await prisma.question.findMany({
         where: req.body,
       })
@@ -86,7 +86,7 @@ const setupExpressServer = () => {
     /*
     UPDATE
     */
-    app.patch("/question/", async (req, res) => {
+    app.patch("/api/question", async (req, res) => {
       
       const questionID = await prisma.question.findFirst({
         where: req.body[0],
@@ -102,7 +102,7 @@ const setupExpressServer = () => {
       res.status(200).send(updateQuestion)
     });
 
-    app.patch("/questions/", async (req, res) => {
+    app.patch("/api/questions", async (req, res) => {
       console.log(typeof Object.keys(req.body[0])[0])
       let key = Object.keys(req.body[0])[0]
       let value = Object.values(req.body[0])[0]
@@ -123,7 +123,7 @@ const setupExpressServer = () => {
      /*
     DELETE
     */
-    app.delete("/question", async (req, res) => {
+    app.delete("/api/question", async (req, res) => {
       const questionID = await prisma.question.findFirst({
         where: req.body,
       });
@@ -135,7 +135,7 @@ const setupExpressServer = () => {
 
     });
 
-    app.delete("/questions", async (req, res) => {
+    app.delete("/api/questions", async (req, res) => {
       const deleteQuestion = await prisma.question.deleteMany({
         where: req.body,
       })
