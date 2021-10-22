@@ -5,6 +5,7 @@ const {
   questionSeed,
   questionSeeds,
 } = require("../prisma/seedData");
+var cors = require("cors");
 
 const prisma = new PrismaClient();
 
@@ -31,7 +32,9 @@ async function createMultiple(questions) {
 const setupExpressServer = () => {
   const app = express();
   app.use(express.json());
-  app.use(allowCrossDomain);
+
+  app.use(cors());
+
   app.get("/api/test", (req, res) => {
     res.send("ITS ALIVE!!!");
   });
