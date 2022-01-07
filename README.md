@@ -17,11 +17,7 @@ All data being sent to the database should be included in the data section of th
 The database is a single table call `Question`. Below is the model used to create its schema.
 
 ```jsx
-model Question { question_id String @id @default(uuid()) 
-									question String @db.VarChar(255) @unique 
-									answer String @db.VarChar(255) 
-									category String @db.VarChar(100) 
-									points Int difficulty Int }
+model Question { question_id String @id @default(uuid()) question String @db.VarChar(255) @unique answer String @db.VarChar(255) category String @db.VarChar(100) points Int difficulty Int }
 ```
 
 ## Endpoints
