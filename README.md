@@ -4,7 +4,7 @@ This was created during my time as a student at Code Chrysalis
 
 ## INTRODUCTION
 
-This is a CRUD API service for a quiz game using Express, Node JS, Prisma & Postgres.
+This is a CRUD API service for a quiz game using Express, Node JS, Prisma & PostgreSQL.
 
 ## USAGE
 
