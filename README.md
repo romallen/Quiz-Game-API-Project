@@ -8,7 +8,7 @@ This is a CRUD API service for a quiz game using Express, Node JS, Prisma & Post
 
 ## USAGE
 
-The API is hosted on Heroku. It can be access from the link below. [https://ccp2-quiz-api.herokuapp.com/](https://ccp2-quiz-api.herokuapp.com/)
+The API is hosted on Heroku. It can be access from the link below. https://ccp2-quiz-api.herokuapp.com
 
 It provides crud functionalities for both a single questions and for multiple questions. There is also an option to seed the database with same questions.
 
